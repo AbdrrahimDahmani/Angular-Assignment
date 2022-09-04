@@ -1,20 +1,19 @@
-import { createReducer, INITIAL_STATE, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { addProductsList } from '../actions/products.actions';
 import { Product } from 'src/app/models/products.models';
+import { state } from '@angular/animations';
 
 export interface State {
-  products: Product[]
+  products: Product[];
 }
 
 const initialState: State = {
-  products: []
-}
+  products: [],
+};
 export const productsReducer = createReducer(
   initialState,
-  on(addProductsList, (state, action) => {
-    return {
-      state,
-      products:action.products
-    }
-  })
+  on(addProductsList, (state, { products }) => ({
+    ...state,
+    products,
+  }))
 );

@@ -8,34 +8,19 @@ import { addProductsList, productsList } from '../actions/products.actions';
 
 @Injectable()
 export class ProductsEffects {
-
   loadProducts$ = createEffect(() =>
-  this.actions$.pipe(
-   ofType(productsList),
-   mergeMap(() => this.productService.getAllProducts().pipe(
-    map(payload => addProductsList({ products:payload })),
-    catchError(error => of({ type: '[Products API] Products Loaded Error' })),
-  )),
-  )
+    this.actions$.pipe(
+      ofType(productsList),
+      mergeMap(() =>
+        this.productService.getAllProducts().pipe(
+          map((products) => addProductsList({ products: products })),
+          catchError(() => of({ type: '[Products API] Products Loaded Error' }))
+        )
+      )
+    )
   );
-
-
   constructor(
     private actions$: Actions,
-    private productService:ProductsService
+    private productService: ProductsService
   ) {}
 }
-
-/*
-  loadProducts$ = createEffect(() =>
-  this.actions$.pipe(
-   ofType(productsList),
-   mergeMap(() => this.productService.getAllProducts()
-     .pipe(
-       map((products) => addProductsList({products:products})),
-       catchError(()=>of({ type: '[Products API] Products Loaded Error' })
-     ))
-   )
-  )
-  );
-*/

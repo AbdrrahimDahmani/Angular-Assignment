@@ -10,13 +10,6 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
   public getAllProducts():Observable<Product[]>{
-    return this.http.get<Product[]>("https://random-data-api.com/api/coffee/random_coffee?size=50")
-      .pipe(map((data)=>{
-        const products:Product[]=[];
-        for(let key in data){
-          products.push({...data[key]});
-        }
-        return products;
-      }));
+    return this.http.get<Product[]>("https://random-data-api.com/api/coffee/random_coffee?size=50");
   }
 }
