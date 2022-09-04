@@ -16,6 +16,7 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./products-list.component.css'],
 })
 export class ProductsListComponent implements OnInit {
+  //I keep getting a store object having my data values
   products$ = this.store.select(getProducts);
 
   displayedColumns: string[] = ['id','name','origins','varieti','intensifier'];
