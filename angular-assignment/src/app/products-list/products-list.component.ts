@@ -8,7 +8,6 @@ import {
   productsList,
 } from '../app-states/actions/products.actions';
 import { AppState } from '../app-states/app.state';
-import { getProducts } from '../app-states/selectors/products.selector';
 import { Product } from '../models/products.models';
 import { ProductsService } from '../services/products.service';
 @Component({
