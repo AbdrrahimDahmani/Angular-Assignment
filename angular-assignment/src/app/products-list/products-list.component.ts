@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import {
   addProductsList,
   productsList,
@@ -16,27 +17,22 @@ import { ProductsService } from '../services/products.service';
   styleUrls: ['./products-list.component.css'],
 })
 export class ProductsListComponent implements OnInit {
-  //I keep getting a store object having my data values
-  products$ = this.store.select(getProducts);
+  products$ = this.store.subscribe(res=>{
+    console.log(res['productsCall']['products'])
+    this.dataSource=new MatTableDataSource<Product>(res['productsCall']['products']);
+    if(this.matPaginator){
+      this.dataSource.paginator=this.matPaginator;
+
+  }})
+
 
   displayedColumns: string[] = ['id','name','origins','varieti','intensifier'];
   dataSource:MatTableDataSource<Product>=new MatTableDataSource<Product>();
   @ViewChild(MatPaginator) matPaginator !:MatPaginator;
-  constructor(private store: Store<AppState>,private service:ProductsService) {}
+  constructor(private store: Store<{products:Product[]}>) {}
   ngOnInit(): void {
     this.store.dispatch(productsList());
-    console.log(this.products$);
-
-    this.service.getAllProducts().subscribe(
-      res=>{
-      this.dataSource=new MatTableDataSource<Product>(res);
-          if(this.matPaginator){
-            this.dataSource.paginator=this.matPaginator;
-          }
-      },
-      (errorResponse)=>{
-        console.log(errorResponse);
-      });
+    console.log(this.products$)
     }
 
 
